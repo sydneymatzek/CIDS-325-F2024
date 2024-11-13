@@ -126,15 +126,35 @@ class BlackJackGame{
     }
 
     playerStand(){
-        // fill in later
+        document.getElementById('dealerHand').innerHTML = ' ';
+        this.dealerCardsDisplayed = 0; 
+        this.updateDisplay();
+        setTimeout(handler,() =>{
+            this.determineWinner();
+        }, timeout, 500);
     }
 
-    calculateScore(hand){
-        // fill in later
+    calculateScore(hand){ // calculates the score 
+        let score = hand.reduce((sum, card) => sum + card.getValue(), 0); 
+        let aceCount = hand.filter(card => card.rank === 'ace').length;
+
+        while(score > 21 && aceCount > 0){
+            score -= 10; 
+            aceCount -= 1; //each ace we subtract off the ten until we get to that ace not put over. 
+        }
+        return score; 
     }
 
     updateDisplay(){
-        // fill in later
+        const playerHandDiv = document.getElementById('playerhand');
+        const dealerHandDiv = document.getElementById('dealerhand');
+
+        this.displayPlayerHand(playerHandDiv);
+        this.displayDealerHand(dealerHandDiv);
+
+        document.getElementById('playerScore').textContent = score;
+        
+
     }
 
     displayPlayerHand(container){
